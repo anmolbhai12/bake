@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bakenovation</title>
+  <style>
+    /* PAGE RESET */
+    * { margin:0; padding:0; box-sizing: border-box; }
+    body {
+      background: #121212;
+      color: #eee;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* NEON HEADER */
+    header {
+      text-align: center;
+      padding: 20px;
+      background: #000;
+      position: relative;
+      overflow: hidden;
+    }
+    header h1 {
+      font-size: 3rem;
+      color: #d6b3ff;
+      animation: neon 5s ease-in-out infinite alternate;
+    }
+    @keyframes neon {
+      from { text-shadow: 0 0 5px #d6b3ff, 0 0 10px #b380ff; }
+      to   { text-shadow: 0 0 20px #ffd6ff, 0 0 30px #ff80ff, 0 0 40px #ff80ff; }
+    }
+
+    /* SLIDER CONTAINER */
+    .slider {
+      position: relative;
+      width: 100%;
+      padding: 40px 0;
+      background: #1d1d1d;
+      flex-grow: 1;
+    }
+    .slides {
+      display: flex;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      gap: 20px;
+      padding: 0 20px;
+    }
+    .slide {
+      flex: 0 0 auto;
+      width: 300px;
+      height: 300px;
+      background: #2b2b2b;
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      transition: transform .3s;
+    }
+    .slide:hover {
+      transform: scale(1.05);
+    }
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* HIDE SCROLLBAR */
+    .slides {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .slides::-webkit-scrollbar { display: none; }
+
+    /* CONTACT FOOTER */
+    footer {
+      background: #000;
+      text-align: center;
+      padding: 15px;
+      font-size: 0.9rem;
+      border-top: 1px solid #333;
+    }
+    footer a { color: #d6b3ff; }
+
+    @media (max-width: 400px) {
+      .slide { width: 80vw; height: 80vw; }
+      header h1 { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Bakenovation</h1>
+  </header>
+
+  <section class="slider">
+    <div class="slides" id="slidesContainer">
+      <!-- Slides will be injected here -->
+    </div>
+  </section>
+
+  <footer>
+    <p>Questions? <a href="contact.html">Contact Us</a> or visit our <a href="help.html">Help Centre</a>.</p>
+  </footer>
+
+  <script>
+    // === YOUR SLIDER DATA ===
+    const contentData = [
+      { image: 'images/golden-boy-1540845262268.jpg', link: 'cakes/golden-boy.html' },
+      { image: 'images/thumb-1920-598673.jpg', link: 'cakes/your-lie-in-april.html' },
+      { image: 'images/movie3.jpg',                    link: 'cakes/chocolate-delight.html' },
+      { image: 'images/movie4.jpg',                    link: 'cakes/berry-bliss.html' }
+      // …add as many as you need
+    ];
+
+    // === BUILD THE SLIDES ===
+    const slidesContainer = document.getElementById('slidesContainer');
+    contentData.forEach(item => {
+      const slide = document.createElement('div');
+      slide.className = 'slide';
+      slide.onclick = () => window.location.href = item.link;
+
+      const img = document.createElement('img');
+      img.src = item.image;
+      img.alt = 'Cake Slide';
+
+      slide.appendChild(img);
+      slidesContainer.appendChild(slide);
+    });
+
+    // OPTIONAL: auto-scroll
+    let scrollPos = 0;
+    function autoScroll() {
+      scrollPos += 1;
+      if (scrollPos > slidesContainer.scrollWidth - slidesContainer.clientWidth) {
+        scrollPos = 0;
+      }
+      slidesContainer.scrollTo({ left: scrollPos, behavior: 'smooth' });
+    }
+    setInterval(autoScroll, 50);
+  </script>
+
+</body>
+</html>
