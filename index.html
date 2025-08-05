@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Bakenovation</title>
   <style>
-    /* PAGE RESET */
+    /* RESET */
     * { margin:0; padding:0; box-sizing: border-box; }
     body {
       background: #121212;
@@ -35,11 +35,41 @@
       to   { text-shadow: 0 0 20px #ffd6ff, 0 0 30px #ff80ff, 0 0 40px #ff80ff; }
     }
 
-    /* SLIDER CONTAINER */
+    /* HERO SLIDER */
+    .hero-slider {
+      position: relative;
+      width: 100%;
+      height: 300px;
+      overflow: hidden;
+    }
+    .hero-slides {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      transition: transform 1s ease-in-out;
+    }
+    .hero-slide {
+      flex: 0 0 100%;
+    }
+    .hero-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* SECTION TITLE */
+    .section-title {
+      text-align: center;
+      margin: 40px 0 20px;
+      font-size: 2rem;
+      color: #d6b3ff;
+    }
+
+    /* PRODUCT SLIDER */
     .slider {
       position: relative;
       width: 100%;
-      padding: 40px 0;
+      padding: 20px 0;
       background: #1d1d1d;
       flex-grow: 1;
     }
@@ -52,8 +82,8 @@
     }
     .slide {
       flex: 0 0 auto;
-      width: 300px;
-      height: 300px;
+      width: 250px;
+      height: 250px;
       background: #2b2b2b;
       border-radius: 12px;
       overflow: hidden;
@@ -61,17 +91,13 @@
       cursor: pointer;
       transition: transform .3s;
     }
-    .slide:hover {
-      transform: scale(1.05);
-    }
+    .slide:hover { transform: scale(1.05); }
     .slide img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
     }
-
-    /* HIDE SCROLLBAR */
     .slides {
       -ms-overflow-style: none;
       scrollbar-width: none;
@@ -88,9 +114,16 @@
     }
     footer a { color: #d6b3ff; }
 
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .slide { width: 200px; height: 200px; }
+      .section-title { font-size: 1.5rem; }
+      .hero-slider { height: 200px; }
+    }
     @media (max-width: 400px) {
       .slide { width: 80vw; height: 80vw; }
       header h1 { font-size: 2rem; }
+      .hero-slider { height: 150px; }
     }
   </style>
 </head>
@@ -100,10 +133,17 @@
     <h1>Bakenovation</h1>
   </header>
 
+  <!-- HERO SLIDER -->
+  <section class="hero-slider">
+    <div class="hero-slides" id="heroSlides"></div>
+  </section>
+
+  <!-- SECTION TITLE -->
+  <h2 class="section-title">Our Best Products</h2>
+
+  <!-- PRODUCT SLIDER -->
   <section class="slider">
-    <div class="slides" id="slidesContainer">
-      <!-- Slides will be injected here -->
-    </div>
+    <div class="slides" id="slidesContainer"></div>
   </section>
 
   <footer>
@@ -111,37 +151,46 @@
   </footer>
 
   <script>
-    // === YOUR SLIDER DATA ===
-    const contentData = [
-      { image: 'images/golden-boy-1540845262268.jpg', link: 'cakes/golden-boy.html' },
-      { image: 'images/thumb-1920-598673.jpg', link: 'cakes/your-lie-in-april.html' },
-      { image: 'images/movie3.jpg',                    link: 'cakes/chocolate-delight.html' },
-      { image: 'images/movie4.jpg',                    link: 'cakes/berry-bliss.html' }
-      // …add as many as you need
+    // === HERO SLIDER DATA ===
+    const heroData = [
+      'images/hero1.jpg',
+      'images/hero2.jpg',
+      'images/hero3.jpg'
     ];
 
-    // === BUILD THE SLIDES ===
+    const heroContainer = document.getElementById('heroSlides');
+    heroData.forEach(src => {
+      const div = document.createElement('div'); div.className = 'hero-slide';
+      const img = document.createElement('img'); img.src = src; img.alt = 'Banner';
+      div.appendChild(img); heroContainer.appendChild(div);
+    });
+    let heroIndex = 0;
+    setInterval(() => {
+      heroIndex = (heroIndex + 1) % heroData.length;
+      heroContainer.style.transform = `translateX(-${heroIndex * 100}%)`;
+    }, 5000);
+
+    // === PRODUCT SLIDER DATA ===
+    const contentData = [
+      { image: 'images/golden-boy-1540845262268.jpg', link: 'cakes/golden-boy.html' },
+      { image: 'images/thumb-1920-598673.jpg',     link: 'cakes/your-lie-in-april.html' },
+      { image: 'images/movie3.jpg',                link: 'cakes/chocolate-delight.html' },
+      { image: 'images/movie4.jpg',                link: 'cakes/berry-bliss.html' }
+    ];
+
     const slidesContainer = document.getElementById('slidesContainer');
     contentData.forEach(item => {
-      const slide = document.createElement('div');
-      slide.className = 'slide';
+      const slide = document.createElement('div'); slide.className = 'slide';
       slide.onclick = () => window.location.href = item.link;
-
-      const img = document.createElement('img');
-      img.src = item.image;
-      img.alt = 'Cake Slide';
-
-      slide.appendChild(img);
-      slidesContainer.appendChild(slide);
+      const img = document.createElement('img'); img.src = item.image; img.alt = 'Cake';
+      slide.appendChild(img); slidesContainer.appendChild(slide);
     });
 
-    // OPTIONAL: auto-scroll
+    // Auto-scroll products
     let scrollPos = 0;
     function autoScroll() {
       scrollPos += 1;
-      if (scrollPos > slidesContainer.scrollWidth - slidesContainer.clientWidth) {
-        scrollPos = 0;
-      }
+      if (scrollPos > slidesContainer.scrollWidth - slidesContainer.clientWidth) scrollPos = 0;
       slidesContainer.scrollTo({ left: scrollPos, behavior: 'smooth' });
     }
     setInterval(autoScroll, 50);
