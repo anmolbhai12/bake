@@ -12,12 +12,18 @@
     }
     body {
       font-family: 'Segoe UI', sans-serif;
-      background-color: #000;
       color: #fff;
+      background: linear-gradient(-45deg, #2c003e, #3c1053, #2a064e, #000);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
       overflow-x: hidden;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      position: relative;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     .login {
@@ -37,66 +43,61 @@
       background: #ffffff66;
     }
 
-    .header-section {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 100px 20px 40px;
-      width: 100%;
+    header {
+      text-align: center;
+      padding: 80px 20px 30px;
+      z-index: 2;
       position: relative;
     }
 
-    .logo-title {
-      font-size: 3rem;
+    header h1 {
+      font-size: 4rem;
       font-weight: bold;
       color: #fff;
       animation: neonText 2s infinite alternate;
-      text-align: center;
-      flex: 1;
-    }
-
-    .slider-box {
-      width: 200px;
-      height: 200px;
-      overflow: hidden;
-      position: relative;
-      margin-left: 20px;
-    }
-
-    .slider-wrapper {
-      display: flex;
-      flex-direction: column;
-      height: 600px;
-      animation: slideUp 6s linear infinite;
-    }
-
-    .slider-wrapper img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
     }
 
     @keyframes neonText {
-      from { text-shadow: 0 0 10px #ff4ec7, 0 0 20px #ff4ec7; }
-      to { text-shadow: 0 0 20px #6a82fb, 0 0 40px #6a82fb; }
+      from { text-shadow: 0 0 10px #c77dff, 0 0 20px #9d4edd; }
+      to { text-shadow: 0 0 20px #7209b7, 0 0 40px #560bad; }
     }
 
-    @keyframes slideUp {
-      0% { transform: translateY(0); }
-      33% { transform: translateY(-200px); }
-      66% { transform: translateY(-400px); }
-      100% { transform: translateY(0); }
+    .hero-slider {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .hero-slides {
+      display: flex;
+      width: 2000%;
+      height: 100%;
+      transition: transform 1s ease-in-out;
+    }
+    .hero-slide {
+      flex: 0 0 10%;
+      position: relative;
+    }
+    .hero-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.25;
     }
 
     .description {
+      position: relative;
+      z-index: 2;
       max-width: 800px;
-      margin: 20px auto;
+      margin: 40px auto;
       text-align: center;
       background: rgba(0,0,0,0.6);
       padding: 30px;
       border-radius: 15px;
     }
-
     .description p {
       font-size: 1.3rem;
       line-height: 1.6;
@@ -109,7 +110,6 @@
       align-items: center;
       gap: 15px;
     }
-
     .action-buttons a {
       text-decoration: none;
       background: #ffffff22;
@@ -124,7 +124,6 @@
       align-items: center;
       gap: 10px;
     }
-
     .action-buttons a:hover {
       background: #ffffff55;
     }
@@ -134,18 +133,11 @@
     }
 
     @media (max-width: 768px) {
-      .header-section {
-        flex-direction: column;
-        padding-top: 80px;
-      }
-      .slider-box {
-        margin-left: 0;
-        margin-top: 20px;
-      }
-      .logo-title {
-        font-size: 2rem;
+      header h1 {
+        font-size: 2.5rem;
       }
       .description {
+        margin: 30px 20px;
         padding: 20px;
       }
       .action-buttons a {
@@ -159,16 +151,13 @@
 
   <a class="login" href="#login">Login</a>
 
-  <section class="header-section">
-    <h1 class="logo-title">Bakenovation</h1>
-    <div class="slider-box">
-      <div class="slider-wrapper">
-        <img src="230410_112838_043_564.jpg" alt="Cake 1">
-        <img src="GreenFloralBirthdayCake.webp" alt="Cake 2">
-        <img src="onlinechocolatecakeexpressluv_675895d5-a228-49fa-a258-4dd19a21ff5c.jpg" alt="Cake 3">
-      </div>
-    </div>
+  <section class="hero-slider">
+    <div class="hero-slides" id="heroSlides"></div>
   </section>
+
+  <header>
+    <h1>Bakenovation</h1>
+  </header>
 
   <div class="description">
     <p>Welcome to <strong>Bakenovation</strong> — A wonderland of creative cakes and baked delights! We blend taste, innovation, and design into every sweet moment.</p>
@@ -178,5 +167,39 @@
     </div>
   </div>
 
+  <script>
+    const heroData = [
+      '230410_112838_043_564.jpg',
+      'GreenFloralBirthdayCake.webp',
+      'onlinechocolatecakeexpressluv_675895d5-a228-49fa-a258-4dd19a21ff5c.jpg',
+      'cake1.jpg',
+      'cake2.jpg',
+      'cake3.jpg',
+      'cake4.jpg',
+      'cake5.jpg',
+      'cake6.jpg',
+      'cake7.jpg',
+      'cake8.jpg',
+      'cake9.jpg',
+      'cake10.jpg'
+    ];
+
+    const heroContainer = document.getElementById('heroSlides');
+    heroData.forEach(src => {
+      const div = document.createElement('div');
+      div.className = 'hero-slide';
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = 'Banner';
+      div.appendChild(img);
+      heroContainer.appendChild(div);
+    });
+
+    let heroIndex = 0;
+    setInterval(() => {
+      heroIndex = (heroIndex + 1) % heroData.length;
+      heroContainer.style.transform = `translateX(-${heroIndex * 10}%)`;
+    }, 2000);
+  </script>
 </body>
 </html>
