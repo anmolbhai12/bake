@@ -7,51 +7,56 @@
   <style>
     * { margin:0; padding:0; box-sizing: border-box; }
     body {
-      background: #fff0f5;
-      color: #3a3a3a;
+      background: #fdf6ff;
+      color: #4b3f72;
       font-family: 'Segoe UI', sans-serif;
       display: flex;
       flex-direction: column;
       min-height: 100vh;
     }
-    a { color: #d17ca1; text-decoration: none; }
+    a { color: inherit; text-decoration: none; }
 
-    /* HEADER */
     header {
-      background: #ffe4e1;
-      padding: 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
+      padding: 20px;
+      background: #d4b0ff;
+      position: relative;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
     header h1 {
       font-size: 2.5rem;
-      color: #ff69b4;
-      animation: neon 3s ease-in-out infinite alternate;
+      color: #4b3f72;
+      animation: neon 5s ease-in-out infinite alternate;
     }
-    .signin {
+    header .signin {
       font-size: 1rem;
-      color: #fff;
-      background: #ff69b4;
       padding: 8px 16px;
-      border-radius: 5px;
+      background: #f2e3ff;
+      border-radius: 20px;
+      border: 1px solid #b07fff;
+      color: #4b3f72;
+      transition: 0.3s;
+    }
+    header .signin:hover {
+      background: #e6ccff;
     }
     @keyframes neon {
-      from { text-shadow: 0 0 5px #ffb6c1; }
-      to { text-shadow: 0 0 20px #ff69b4, 0 0 30px #ff69b4; }
+      from { text-shadow: 0 0 5px #caaaff, 0 0 10px #b380ff; }
+      to   { text-shadow: 0 0 20px #ffd6ff, 0 0 30px #ffccff, 0 0 40px #ffccff; }
     }
 
-    /* HERO SLIDER */
     .hero-slider {
       position: relative;
       width: 100%;
-      max-height: 400px;
+      height: 300px;
       overflow: hidden;
     }
     .hero-slides {
       display: flex;
       width: 100%;
+      height: 100%;
       transition: transform 1s ease-in-out;
     }
     .hero-slide {
@@ -59,41 +64,23 @@
     }
     .hero-slide img {
       width: 100%;
-      height: auto;
-      max-height: 400px;
+      height: 100%;
       object-fit: cover;
     }
 
-    /* MOBILE NAV */
-    .mobile-nav {
-      display: none;
-      flex-direction: column;
-      padding: 20px;
-      gap: 15px;
-      background: #ffe4e1;
-    }
-    .mobile-nav a {
-      background: #fff0f5;
-      padding: 12px;
-      text-align: center;
-      border-radius: 10px;
-      font-weight: bold;
-      color: #c71585;
-    }
-
-    /* SECTION TITLE */
     .section-title {
       text-align: center;
       margin: 40px 0 20px;
       font-size: 2rem;
-      color: #d17ca1;
+      color: #7d5ba6;
     }
 
-    /* PRODUCT SLIDER */
     .slider {
+      position: relative;
       width: 100%;
       padding: 20px 0;
-      background: #fff0f5;
+      background: #f9efff;
+      flex-grow: 1;
     }
     .slides {
       display: flex;
@@ -106,7 +93,7 @@
       flex: 0 0 auto;
       width: 250px;
       height: 250px;
-      background: #ffe4e1;
+      background: #efd6ff;
       border-radius: 12px;
       overflow: hidden;
       position: relative;
@@ -120,50 +107,71 @@
       object-fit: cover;
       display: block;
     }
+    .slides {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
     .slides::-webkit-scrollbar { display: none; }
 
     footer {
-      background: #ffe4e1;
+      background: #d4b0ff;
       text-align: center;
       padding: 15px;
       font-size: 0.9rem;
-      border-top: 1px solid #f2a1c4;
+      border-top: 1px solid #bbb;
+    }
+    footer a { color: #5d3b8f; }
+
+    .mobile-buttons {
+      display: none;
     }
 
     @media (max-width: 768px) {
-      header { flex-direction: column; align-items: center; }
-      .mobile-nav { display: flex; }
       .slide { width: 200px; height: 200px; }
+      .section-title { font-size: 1.5rem; }
+      .hero-slider { height: 200px; }
+      .mobile-buttons {
+        display: flex;
+        justify-content: space-around;
+        background: #f2e3ff;
+        padding: 10px 0;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        z-index: 999;
+        border-top: 1px solid #b07fff;
+      }
+      .mobile-buttons a {
+        flex: 1;
+        text-align: center;
+        padding: 10px;
+        background: #efd6ff;
+        margin: 0 5px;
+        border-radius: 10px;
+        color: #4b3f72;
+        font-weight: bold;
+      }
     }
     @media (max-width: 400px) {
       .slide { width: 80vw; height: 80vw; }
       header h1 { font-size: 2rem; }
-      .hero-slider { max-height: 200px; }
+      .hero-slider { height: 150px; }
     }
   </style>
 </head>
 <body>
+
   <header>
     <h1>Bakenovation</h1>
-    <a href="signin.html" class="signin">Sign In</a>
+    <a href="#signin" class="signin">Sign In</a>
   </header>
 
-  <!-- HERO SLIDER -->
   <section class="hero-slider">
     <div class="hero-slides" id="heroSlides"></div>
   </section>
 
-  <!-- MOBILE NAV -->
-  <div class="mobile-nav">
-    <a href="orders.html">My Orders</a>
-    <a href="explore.html">Explore</a>
-    <a href="contact.html">Contact Us</a>
-  </div>
-
-  <!-- SECTION TITLE -->
   <h2 class="section-title">Our Best Products</h2>
 
-  <!-- PRODUCT SLIDER -->
   <section class="slider">
     <div class="slides" id="slidesContainer"></div>
   </section>
@@ -172,46 +180,54 @@
     <p>Questions? <a href="contact.html">Contact Us</a> or visit our <a href="help.html">Help Centre</a>.</p>
   </footer>
 
+  <div class="mobile-buttons">
+    <a href="#orders">My Orders</a>
+    <a href="#explore">Explore</a>
+    <a href="#contact">Contact</a>
+  </div>
+
   <script>
     const heroData = [
       '230410_112838_043_564.jpg',
       'GreenFloralBirthdayCake.webp',
       'onlinechocolatecakeexpressluv_675895d5-a228-49fa-a258-4dd19a21ff5c.jpg'
     ];
+
     const heroContainer = document.getElementById('heroSlides');
     heroData.forEach(src => {
-      const div = document.createElement('div');
-      div.className = 'hero-slide';
-      const img = document.createElement('img');
-      img.src = src;
-      img.alt = 'Banner';
-      div.appendChild(img);
-      heroContainer.appendChild(div);
+      const div = document.createElement('div'); div.className = 'hero-slide';
+      const img = document.createElement('img'); img.src = src; img.alt = 'Banner';
+      div.appendChild(img); heroContainer.appendChild(div);
     });
     let heroIndex = 0;
     setInterval(() => {
       heroIndex = (heroIndex + 1) % heroData.length;
       heroContainer.style.transform = `translateX(-${heroIndex * 100}%)`;
-    }, 4000);
+    }, 5000);
 
     const contentData = [
       { image: 'onlinechocolatecakeexpressluv_675895d5-a228-49fa-a258-4dd19a21ff5c.jpg', link: 'cakes/golden-boy.html' },
-      { image: '230410_112838_043_564.jpg', link: 'cakes/your-lie-in-april.html' },
-      { image: 'ChocolateCake_1.webp', link: 'cakes/chocolate-delight.html' },
-      { image: 'GreenFloralBirthdayCake.webp', link: 'cakes/berry-bliss.html' }
+      { image: '230410_112838_043_564.jpg',     link: 'cakes/your-lie-in-april.html' },
+      { image: 'ChocolateCake_1.webp',          link: 'cakes/chocolate-delight.html' },
+      { image: 'GreenFloralBirthdayCake.webp',  link: 'cakes/berry-bliss.html' }
     ];
 
     const slidesContainer = document.getElementById('slidesContainer');
     contentData.forEach(item => {
-      const slide = document.createElement('div');
-      slide.className = 'slide';
+      const slide = document.createElement('div'); slide.className = 'slide';
       slide.onclick = () => window.location.href = item.link;
-      const img = document.createElement('img');
-      img.src = item.image;
-      img.alt = 'Cake';
-      slide.appendChild(img);
-      slidesContainer.appendChild(slide);
+      const img = document.createElement('img'); img.src = item.image; img.alt = 'Cake';
+      slide.appendChild(img); slidesContainer.appendChild(slide);
     });
+
+    let scrollPos = 0;
+    function autoScroll() {
+      scrollPos += 1;
+      if (scrollPos > slidesContainer.scrollWidth - slidesContainer.clientWidth) scrollPos = 0;
+      slidesContainer.scrollTo({ left: scrollPos, behavior: 'smooth' });
+    }
+    setInterval(autoScroll, 50);
   </script>
+
 </body>
 </html>
