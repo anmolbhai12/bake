@@ -13,44 +13,25 @@
     body {
       font-family: 'Segoe UI', sans-serif;
       color: #fff;
-      overflow: hidden;
-    }
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e);
-      background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
-    }
-
-    @keyframes gradientBG {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+      background-color: #000;
+      overflow-x: hidden;
     }
 
     header {
       text-align: center;
-      padding: 50px 20px 20px;
+      padding: 60px 20px 20px;
     }
 
     header h1 {
-      font-size: 3.5rem;
+      font-size: 4rem;
       font-weight: bold;
-      background: linear-gradient(90deg, #ff4ec7, #6a82fb, #f7797d);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: glow 3s infinite alternate;
+      color: #fff;
+      animation: neonText 2s infinite alternate;
     }
 
-    @keyframes glow {
-      0% { text-shadow: 0 0 10px #ff8df3; }
-      100% { text-shadow: 0 0 25px #a98bff; }
+    @keyframes neonText {
+      from { text-shadow: 0 0 10px #ff4ec7, 0 0 20px #ff4ec7; }
+      to { text-shadow: 0 0 20px #6a82fb, 0 0 40px #6a82fb; }
     }
 
     .login {
@@ -58,48 +39,55 @@
       top: 20px;
       right: 30px;
       padding: 10px 20px;
-      background: #ffffff33;
+      background: #ffffff22;
       border: 1px solid #fff;
       border-radius: 20px;
       color: #fff;
       text-decoration: none;
       transition: 0.3s;
+      z-index: 10;
     }
     .login:hover {
       background: #ffffff66;
     }
 
     .hero-slider {
-      position: absolute;
-      top: 0;
-      left: 0;
+      position: relative;
       width: 100%;
       height: 100vh;
-      z-index: -2;
+      overflow: hidden;
     }
     .hero-slides {
       display: flex;
-      width: 100%;
+      width: 300%;
       height: 100%;
       transition: transform 1s ease-in-out;
     }
     .hero-slide {
       flex: 0 0 100%;
+      position: relative;
     }
     .hero-slide img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      opacity: 0.25;
-      filter: blur(2px);
+      animation: zoomIn 10s infinite alternate;
+    }
+
+    @keyframes zoomIn {
+      from { transform: scale(1); }
+      to { transform: scale(1.05); }
     }
 
     .description {
       position: relative;
       z-index: 1;
       max-width: 800px;
-      margin: 20px auto;
+      margin: -300px auto 40px;
       text-align: center;
+      background: rgba(0,0,0,0.6);
+      padding: 30px;
+      border-radius: 15px;
     }
     .description p {
       font-size: 1.3rem;
@@ -109,16 +97,18 @@
 
     .action-buttons {
       display: flex;
-      justify-content: center;
-      gap: 20px;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
     }
     .action-buttons a {
       text-decoration: none;
       background: #ffffff22;
       border: 1px solid #fff;
-      padding: 12px 25px;
+      padding: 12px 30px;
       border-radius: 30px;
       color: #fff;
+      font-size: 1rem;
       font-weight: bold;
       transition: 0.3s;
       display: flex;
@@ -128,9 +118,23 @@
     .action-buttons a:hover {
       background: #ffffff55;
     }
-    .action-buttons img {
-      width: 20px;
-      height: 20px;
+
+    .emoji {
+      font-size: 1.3rem;
+    }
+
+    @media (max-width: 768px) {
+      .description {
+        margin-top: -200px;
+        padding: 20px;
+      }
+      header h1 {
+        font-size: 2.5rem;
+      }
+      .action-buttons a {
+        font-size: 0.95rem;
+        padding: 10px 20px;
+      }
     }
   </style>
 </head>
@@ -147,10 +151,10 @@
   </section>
 
   <div class="description">
-    <p>Welcome to Bakenovation, where imagination meets flavor! Explore our finest cake creations crafted with love, and delight in every bite.</p>
+    <p>Welcome to <strong>Bakenovation</strong> — A wonderland of creative cakes and baked delights! We blend taste, innovation, and design into every sweet moment.</p>
     <div class="action-buttons">
-      <a href="https://wa.me/yourwhatsapplink"><img src="whatsapp-icon.png" alt="WhatsApp"> Contact Us</a>
-      <a href="main.html"><img src="cake-icon.png" alt="Cake"> Go to Main Website</a>
+      <a href="https://wa.me/yourwhatsapplink"><span class="emoji">🟢📞</span> Contact Us</a>
+      <a href="main.html"><span class="emoji">🍰</span> Go to Main Website</a>
     </div>
   </div>
 
@@ -171,6 +175,7 @@
       div.appendChild(img);
       heroContainer.appendChild(div);
     });
+
     let heroIndex = 0;
     setInterval(() => {
       heroIndex = (heroIndex + 1) % heroData.length;
